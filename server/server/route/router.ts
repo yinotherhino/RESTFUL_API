@@ -1,17 +1,15 @@
-import fs, { read } from "fs";
-import http, { IncomingMessage, Server, ServerResponse } from "http";
+import fs from 'fs';
+import http, { IncomingMessage, ServerResponse } from "http";
 import path from "path";
 
 import checkDb from '../services/checkDb.services'
 import Database from "../interfaces/database.interface";
+import reqErrorHandler from '../services/errorhandler.services';
 
 
 const databasePath = path.join("./database.json");
-const HOST_NAME = "localhost";
 
 const route = async (req: IncomingMessage, res: ServerResponse) => {
-
-
         try {
           await checkDb();
           const readingDb = fs.createReadStream(databasePath, 'utf-8');
@@ -61,8 +59,8 @@ const route = async (req: IncomingMessage, res: ServerResponse) => {
               })
             })
             
-      
-      
+            reqErrorHandler(req, res);
+            
           }
       
           if (req.method === "PUT") {
@@ -99,6 +97,8 @@ const route = async (req: IncomingMessage, res: ServerResponse) => {
               })
       
             })
+
+            reqErrorHandler(req, res);
       
           }
       
@@ -136,6 +136,8 @@ const route = async (req: IncomingMessage, res: ServerResponse) => {
               })
       
             })
+
+            reqErrorHandler(req, res);
       
           }
       

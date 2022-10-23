@@ -1,13 +1,14 @@
-import http, { IncomingMessage, Server, ServerResponse } from "http";
+import http, { Server } from "http";
+
+import route from "./route/router"
 /*
 implement your server code here
 */
 
-const server: Server = http.createServer((req: IncomingMessage, res: ServerResponse) => {
-    if (req.method === "GET") {
-      res.end(JSON.stringify({ name: "hello" }));
-    }
-  }
-);
+const HOST_NAME = "localhost";
 
-server.listen(3005);
+const server: Server = http.createServer(route);
+
+server.listen(3005, HOST_NAME,() => {
+  console.log(`server running on port 3005`)
+});

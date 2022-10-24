@@ -20,13 +20,13 @@ first, Clone the project
 
 you need to install the dependencies for the project by running
 ```
-yarn or npm i
+yarn
 ```
 
 Compile to javascript
 
 ```sh
-yarn tsc or npm run compile
+yarn tsc
 ```
 
 Then, you can run the server by running

@@ -12,8 +12,15 @@ A web scraper hosted on the localhost port 3001, which takes one url from a clie
 
 ## To run the project on your machine
 
+
+For server, make sure in the root directory
 ```sh
-cd server or cd server2
+cd server
+```
+
+For server2, make sure in the root directory
+```sh
+cd server2
 ```
 
 first, Clone the project

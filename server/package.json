@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "serve":"node lib/app",
-    "test": "node server.test.js"
+    "test": "node server.test.js",
+    "compile": "npx tsc"
   },
   "dependencies": {
     "@types/node": "^14.14.22",

@@ -6,3 +6,5 @@ __MACOSX/
 lib/
 database.json
 tests
+yarn.lock
+yarn-error.log

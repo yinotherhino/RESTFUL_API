@@ -9,17 +9,33 @@ import reqErrorHandler from '../services/errorhandler.services';
 
 const databasePath = path.join("./database.json");
 
+const MIME_TYPES = {
+  default: 'application/octet-stream',
+  html: 'text/html; charset=UTF-8',
+  js: 'application/javascript; charset=UTF-8',
+
+};
+
 const route = async (req: IncomingMessage, res: ServerResponse) => {
         try {
           await checkDb();
+          
+
+
           const readingDb = fs.createReadStream(databasePath, 'utf-8');
       
           if (req.method === "GET") {
             fs.readFile(databasePath, 'utf-8', (err, file)=>{
               if(!err){
                 let data = file.toString()
-                res.statusCode
+                res.writeHead(200, {"Content-type": "Application/json"})
                 res.end(data);
+              }
+              else{
+                res.writeHead(404, {"Content-type": "Application/json"});
+                res.end({
+                  message: "Resource not found."
+                })
               }
               
             } )
@@ -37,17 +53,23 @@ const route = async (req: IncomingMessage, res: ServerResponse) => {
                 database.push(postData);
                 }
                 else{
+                  res.writeHead(400, {"Content-type": "Application/json"});
+                  res.end({
+                    message: "An error Occured."
+                  })
                   return;
                 }
-                console.log(database);
       
                 fs.writeFile(databasePath, JSON.stringify(database, null, "  "), (err)=>{
                   if(err){
+                    res.writeHead(500, {"Content-type": "Application/json"});
+                    res.end({
+                      message: "An error Occured on the server side."
+                    })
                     console.error(err);
-                    
-                    res.end("An error Occured, Couldn't post data.")
                   }
                   else{
+                    res.writeHead(201, {"Content-type": "Application/json"});
                     res.end(JSON.stringify({
                       message: "Data Added Successfully",
                       data: postData,
@@ -82,12 +104,13 @@ const route = async (req: IncomingMessage, res: ServerResponse) => {
                 fs.writeFile(databasePath, JSON.stringify(database, null, "  "), (err)=>{
                   if(err){
                     console.error(err);
-                    
-                    res.end("An error Occured, Couldn't post data.")
+                    res.writeHead(500, {"Content-type": "Application/json"});
+                    res.end({message:"An error Occured, Couldn't post data."})
                   }
                   else{
+                    res.writeHead(201, {"Content-type": "Application/json"})
                     res.end(JSON.stringify({
-                      message: "Data Uodated Successfully",
+                      message: "Data Updated Successfully",
                       data: postData,
                       status: 201
                     }, null, "  "))
@@ -120,15 +143,17 @@ const route = async (req: IncomingMessage, res: ServerResponse) => {
                 
                 fs.writeFile(databasePath, JSON.stringify(database, null, "  "), (err)=>{
                   if(err){
+                    res.writeHead(500, {"Content-type": "Application/json"});
                     console.error(err);
                     
-                    res.end("An error Occured, Couldn't post data.")
+                    res.end({message:"An error Occured, Couldn't delete data.", status: 500})
                   }
                   else{
+                    res.writeHead(204, {"Content-type": "Application/json"})
                     res.end(JSON.stringify({
                       message: "Data Deleted Successfully",
                       data: postData,
-                      status: 201
+                      status: 204
                     }, null, "  "))
                   }
                 });

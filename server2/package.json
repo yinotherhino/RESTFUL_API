@@ -5,7 +5,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "serve": "node lib/app.js"
+    "serve": "node lib/app.js",
+    "compile": "yarn tsc"
   },
   "dependencies": {
     "@types/node": "14.14.22",
